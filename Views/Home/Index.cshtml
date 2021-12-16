@@ -1,0 +1,112 @@
+﻿@model WebApplication1.Models.HomeViewModel
+
+<!-- van der Waal Webdesign -->
+<!-- https://www.vanderwaal.eu -->
+
+
+@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+{
+    <div class="container bg-white pt-3">
+        <div class="row">
+            <div class=" col-12 col-md-4">
+
+                <div class="form-group">
+
+                    @Html.LabelFor(m => m.SearchTerm, new { @class = "fw-bold" }) <span class="text-danger fw-bold">*</span>
+                    @Html.TextBoxFor(m => m.SearchTerm, new { @class = "form-control" })
+                    <span class="text-danger">
+                        @Html.ValidationMessageFor(m => m.SearchTerm)
+                    </span>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 pt-3">
+
+                <button class="btn btn-primary" type="submit">
+                    Submit
+                </button>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 pt-3">
+
+                <em>
+                    Try search terms with typos or special characters like: "Xorem ipsAm", "brown jümps".
+                </em>
+
+            </div>
+        </div>
+
+        @if (Model.SearchResults != null)
+        {
+            <div class="row">
+                <div class="col pt-4">
+
+                    <h5>Search Results</h5>
+
+                    <table class="table table-striped">
+                        <tbody>
+
+                            @foreach (var item in Model.SearchResults)
+                            {
+                                <tr>
+                                    <td class="fw-bold">@item.score</td>
+                                    <td class="fw-bold text-nowrap">@item.title</td>
+                                    <td>@item.contents</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+
+                    @if (Model.SearchResults.Count == 0)
+                    {
+                        <span>No results found.</span>
+                    }
+
+                </div>
+            </div>
+        }
+
+        <div class="row">
+            <div class="col pt-3 pb-4">
+
+                <hr />
+
+                <h5>Indexed data that can be searched</h5>
+
+                <table class="table table-striped mt-3">
+                    <tbody>
+
+                        @foreach (var item in WebApplication1.LuceneSearch.CreateDummyData())
+                        {
+                            <tr>
+                                <td class="fw-bold text-nowrap">@item.ID:&nbsp;@item.title</td>
+                                <td>@item.contents</td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center pt-5 pb-3">
+
+                <a target="_blank" href="https://www.vanderwaal.eu">
+                    <img src="/images/vdwwd.png" alt="van der Waal Webdesign" title="van der Waal Webdesign" />
+                </a>
+
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
