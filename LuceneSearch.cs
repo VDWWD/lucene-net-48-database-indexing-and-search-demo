@@ -79,7 +79,9 @@ namespace WebApplication1
 
                     //add the id to the index
                     var id = new TextField("ID", item.ID.ToString(), Field.Store.YES);
-                    id.Boost = 3F;
+                    
+                    //increase or decrease the importance of the search result hit on this field by adjusting the Boost value
+                    id.Boost = 0.5F;
                     doc.Add(id);
 
                     //add the title to the index
@@ -93,7 +95,9 @@ namespace WebApplication1
                     //add the contents to the index
                     if (!string.IsNullOrEmpty(item.contents))
                     {
+                        //do not store the data in the search index for this field
                         var tf = new TextField("contents", item.contents, Field.Store.NO);
+                        
                         tf.Boost = 1F;
                         doc.Add(tf);
                     }
