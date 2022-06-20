@@ -151,6 +151,11 @@ namespace WebApplication1
                 //search for all the parts
                 foreach (var item in parts)
                 {
+                    //search
+                    query.Add(new TermQuery(new Term("ID", item)), Occur.SHOULD);
+                    query.Add(new TermQuery(new Term("title", item)), Occur.SHOULD);
+                    query.Add(new TermQuery(new Term("contents", item)), Occur.SHOULD);
+                    
                     //search with fuzzy logic
                     query.Add(new FuzzyQuery(new Term("ID", item)), Occur.SHOULD);
                     query.Add(new FuzzyQuery(new Term("title", item)), Occur.SHOULD);
